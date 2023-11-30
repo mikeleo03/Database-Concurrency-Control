@@ -27,7 +27,7 @@ class TransactionItem:
 
 class Operation:
     '''
-    Class VersionControl, handle multiple data versions
+    Class Operation, all possible ops on a transaction
     '''
     def __init__(self, str: str):
         '''
