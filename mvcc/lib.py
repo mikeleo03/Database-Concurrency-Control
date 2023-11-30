@@ -112,7 +112,7 @@ class VersionControl:
         '''
         transaction = self.get(label)
         result_str = ""
-        result_str += f"Version {label}:  "
+        result_str += f"Version {label} : "
         for item in transaction:
             result_str += f"{item}; "
         print(result_str)

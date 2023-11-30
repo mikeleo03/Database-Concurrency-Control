@@ -1,5 +1,5 @@
 from FileHandler import FileHandler
-from lib import *
+from Lib import MVCCTransaction, Operation, VersionControl, TransactionItem
 
 class MVCC:
     '''
