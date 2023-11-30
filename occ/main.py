@@ -23,26 +23,25 @@ class OCC:
     '''
     Class OCC, implementing OCC Algorithm functionalities
     '''
-    def __init__(self, transactions_string: str) -> None:
+    def __init__(self, sequences: [str]) -> None:
         '''
             Initiate needed variables
             params:
             transactions_string = transactions as a set of string
         '''
-        self.input_transactions = self.parse_transactions(transactions_string)
+        self.input_transactions = self.parse_transactions(sequences)
         self.local_vars = []
         self.current_timestamp = 0
         self.transactions = {}
         self.rolledback_transaction_nums = []
 
-    def parse_transactions(self, transactions_string: str):
+    def parse_transactions(self, sequences: [str]):
         '''
             Parse string transactions from user input
             params:
             transactions_string = transactions as a set of string
         '''
         parsed_transactions = []
-        sequences = transactions_string.replace(' ', '').split(';')
         for command in sequences:
             parsed_cmd = {}
             # Parse the command spesific on read and write syantax
@@ -283,8 +282,14 @@ class OCC:
 # Main program
 if __name__ == "__main__":
     print("--- Simulating OCC on DB ---")
-    print("Enter input string (delimited by ;): ")
-    input_string = input("")
-    occ = OCC(input_string)
-    print()
+    file_input = input("Enter the .txt file name: ")
+
+    f = open(file_input, "r")
+    file = f.read()
+    parsedString = file.split(';\n')
+    print(f"\nSet of transaction readed from {file_input}: ")
+    print(parsedString)
+    
+    occ = OCC(parsedString)
+    print(f"\nResult from OCC: ")
     occ.run()
