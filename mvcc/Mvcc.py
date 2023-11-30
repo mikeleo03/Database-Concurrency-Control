@@ -3,7 +3,7 @@ from Lib import MVCCTransaction, Operation, VersionControl, TransactionItem
 
 class MVCC:
     '''
-    Class MVCC, implementing MVCC Timestamp Ordering Algorithm functionalities
+    Class MVCC, implementing MVCC Timestamp Ordering Protocol functionalities
     '''
     def __init__(self, file_handler: FileHandler):
         '''
@@ -16,7 +16,6 @@ class MVCC:
         self.transactions: list[MVCCTransaction] = []
         self.operations: list[Operation] = []
         self.version_controller = VersionControl()
-        self.rolledback_transaction_nums: list[int] = []
 
     def find_transaction(self, t_num: int):
         '''

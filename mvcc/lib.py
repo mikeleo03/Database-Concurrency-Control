@@ -116,4 +116,3 @@ class VersionControl:
         for item in transaction:
             result_str += f"{item}; "
         print(result_str)
-

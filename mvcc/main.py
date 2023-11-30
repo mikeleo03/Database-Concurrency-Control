@@ -7,8 +7,8 @@ def main():
         raise Exception('Usage : python3 main.py <filename>')
 
     file_handler = FileHandler(sys.argv[1])
-    simple_locking = MVCC(file_handler)
-    simple_locking.run()
+    mvcc = MVCC(file_handler)
+    mvcc.run()
 
 if __name__ == '__main__':
     try:
@@ -17,5 +17,4 @@ if __name__ == '__main__':
         main()
     except Exception as e:
         print(e)
-
 
