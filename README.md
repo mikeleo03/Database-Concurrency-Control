@@ -1,5 +1,5 @@
-# Database-Concurrency-Control
-> This source code is made by G02/K02 to fulfill Database Management Project Task on Concurrency control simulation using Two Phase Locking (2PL), Optimistic Concurrency Control (OCC), and Multiversion Concurrency Control
+# Database Concurrency Control Protocol Simulation
+> This source code is made by G02/K02 to fulfill Database Management Project Task on Concurrency Control simulation using Two Phase Locking (2PL), Optimistic Concurrency Control (OCC), and Multiversion Concurrency Control Protocol
 
 ## Table of Content
 - [Author](#author)
@@ -24,6 +24,7 @@ In the realm of database management systems (DBMS), concurrency control is a cri
 ## Project Structure
 ```bash
 .
+├─── doc
 ├─── image
 ├─── public
 │   └─── index.html
