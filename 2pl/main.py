@@ -16,6 +16,6 @@ def main():
     twoPhase.simulate(transactions)
 
 if __name__ == "__main__":
-    print("--- Simulating 2 Phase Locking on DB ---")
-    print(f"\nResult from OCC Protocol: ")
+    print("--- Simulating Two Phase Locking on DB ---")
+    print(f"\nResult from Two Phase Locking Protocol: ")
     main()
