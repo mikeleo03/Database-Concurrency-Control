@@ -31,7 +31,7 @@ class OCC:
         
     def prepare(self, op: Operation):
         '''
-            Setup the initial conndition of OCC Timestamp Ordering
+            Setup the initial condition of OCC
             params:
             op = operation
         '''
