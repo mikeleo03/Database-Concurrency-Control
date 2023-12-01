@@ -107,6 +107,14 @@ class TwoPL :
                     self.queue.remove(transQ)
                     if (not (transQ[1] in locked_num_list)) :
                         last_result = self._execute(transQ)
+                        print('\033[0m' + "[INFO]   | Current queue :", self.queue)
+                        print('\033[0m' + "[INFO]   | Current lock table :")
+                        for item in self.lock_list :
+                            print("[LOCK]   |", item, ": ", end="")
+                            for (lockType, lockNum) in self.lock_list[item] :
+                                print(lockType+f"L({lockNum})", end=" ")
+                            print()
+                        print()
                         if (last_result[0] == 1) :
                             locked_num_list.append(last_result[1])
                             self.queue.append(transQ)

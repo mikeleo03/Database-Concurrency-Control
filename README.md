@@ -8,7 +8,6 @@ Implementasi two phase locking, optimistic concurrency control, dan multiversion
 3. Jalankan program dengan mengetik "python main.py (path ke file .txt)".
 
 Contoh (two phase locking) :
-![contoh cara memakai program](https://drive.google.com/file/d/1BEL3Z-7i_f-xgk3ZLy_DtUOtA54Cphbq/view?usp=sharing)
 
 ## Anggota
 | Name                     |   NIM    |
