@@ -26,6 +26,8 @@ class TwoPL :
             for (type, lockNum) in held_keys :
                 if (type =='X' and num != lockNum) :
                     if (self.transactionOrder.index(num) < self.transactionOrder.index(lockNum)) :
+                        print('\033[93m' + f"[READ]   | T{num} on {item} from DB | Lock held by younger transaction")
+                        print('\033[93m' + f"[ABORT]  | T{lockNum} rolled back")
                         self._rollback(lockNum)
                     else :
                         return False
@@ -35,6 +37,8 @@ class TwoPL :
             for (type, lockNum) in held_keys :
                 if (num != lockNum) :
                     if (self.transactionOrder.index(num) < self.transactionOrder.index(lockNum)) :
+                        print('\033[93m' + f"[WRITE]  | T{num} on {item} from DB | Lock held by younger transaction")
+                        print('\033[93m' + f"[ABORT]  | T{lockNum} rolled back")
                         self._rollback(lockNum)
                     else :
                         return False
@@ -59,23 +63,31 @@ class TwoPL :
         - 1 = operasi masuk ke queue
         - 2 = terjadi unlock
         '''
-        print("Execute", trans)
         op = str.upper(trans[0])
         num = trans[1]
         if (op == 'R' or op =='W') :
             item = trans[3]
             lockSuccess = self._acquire_lock(op, num, item)
             if not(lockSuccess) :
-                print("Lock tidak berhasil diambil")
+                if (op == 'R') :
+                    print('\033[91m' + f"[READ]   | T{num} on {item} from DB | Inserted into queue")
+                else :
+                    print('\033[91m' + f"[WRITE]  | T{num} on {item} from DB | Inserted into queue")
                 return (1,num)
+            else :
+                if (op == 'R') :
+                    print('\033[92m' + f"[READ]   | T{num} on {item} from DB")
+                else :
+                    print('\033[92m' + f"[WRITE]  | T{num} on {item} from DB")
         elif str.upper(op) == 'C' : # Operasi commit
             # Buka semua lock yang dipegang transaksi yang dicommit
             self._release_locks(num)
             self.final_result.append(op + num)
+            print('\033[92m' + f"[COMMIT]  | T{num}")
             return (2, num)
         else :
-             print("Command not valid, aborting simulation")
-             raise Exception()
+            print('\033[91m' + "[ERROR]  | Command not valid, raising exception")
+            raise Exception()
         self.final_result.append(op + num + "(" + str(item) + ")")
         return (0,num)
     
@@ -102,7 +114,6 @@ class TwoPL :
                             self.queue.append(transQ)
                     else :
                         self.queue.append(transQ)
-                print("Queueu setelah eksekusi setelah unlock :", self.queue)
 
             op = comm[0]
             num = comm[1]
@@ -114,10 +125,11 @@ class TwoPL :
                 if (not(item in self.lock_list.keys())) :
                     self.lock_list[item] = []
 
-            # Periksa apakah transaksi dengan nomor tersebut sedang dilock, jika iya, masukkan ke queueu
+            # Periksa apakah transaksi dengan nomor tersebut sedang dilock, jika iya, masukkan ke queue
             isLocked = False
             for transQ in self.queue :
                 if (num == transQ[1]) :
+                    print('\033[91m' + f"[LOCKED] | T{num} is waiting for lock")
                     self.queue.append(comm)
                     isLocked = True
                     break
@@ -126,28 +138,31 @@ class TwoPL :
                 last_result = self._execute(comm)
                 if (last_result[0] == 1) :
                     self.queue.append(comm)
-            print("Curr op :", op, num, item)
-            print("Curr queue :", self.queue)
-            print("Curr lock list:", self.lock_list)
-            print("Temp result :",  self.final_result)
+            print('\033[0m' + "[INFO]   | Current queue :", self.queue)
+            print('\033[0m' + "[INFO]   | Current lock table :")
+            for item in self.lock_list :
+                print("[LOCK]   |", item, ": ", end="")
+                for (lockType, lockNum) in self.lock_list[item] :
+                    print(lockType+f"L({lockNum})", end=" ")
+                print()
+            print('\033[0m' + "[INFO]   | Temporary result :",  self.final_result)
             print()
 
         if (len(self.queue) > 0) :
-            print("Queue not empty")
+            print('\033[94m' + "[INFO]   | Queue not empty, re-running simulation on queue")
             leftOverTransact = []
             for trans in self.queue :
                 leftOverTransact.append(trans)
             self.queue = []
             self.simulate(leftOverTransact)
         
-        print("Final :", self.final_result)
-        print("Lock list :", self.lock_list)
-        print("Queue :", self.queue)
+        print('\033[96m' + "[FINAL]  | Final result :", self.final_result)
         # Reset variables
         self.lock_list = {}
         self.queue = []
         self.final_result = []
         self.transactionOrder = []
+        print('\033[0m')
 
 # Main program
 if __name__ == "__main__":
