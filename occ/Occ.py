@@ -38,7 +38,7 @@ class OCC:
         # Check whether the transaction already exist before
         trx = self.find_transaction(op.t_num)
         
-        # If not exist, create a new transactio
+        # If not exist, create a new transaction
         if trx is None:
             new_trx = OCCTransaction(op.t_num)
             new_trx.arr_process.append(op)     
