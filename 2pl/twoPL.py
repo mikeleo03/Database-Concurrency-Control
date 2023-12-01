@@ -81,7 +81,7 @@ class TwoPL :
             # Buka semua lock yang dipegang transaksi yang dicommit
             self._release_locks(num)
             self.final_result.append(op + num)
-            print('\033[92m' + f"[COMMIT]  | T{num}")
+            print('\033[92m' + f"[COMMIT] | T{num}")
             return (2, num)
         else :
             print('\033[91m' + "[ERROR]  | Command not valid, raising exception")
@@ -143,7 +143,6 @@ class TwoPL :
                 for (lockType, lockNum) in self.lock_list[item] :
                     print(lockType+f"L({lockNum})", end=" ")
                 print()
-            print('\033[0m' + "[INFO]   | Temporary result :",  self.final_result)
             print()
 
         if (len(self.queue) > 0) :
