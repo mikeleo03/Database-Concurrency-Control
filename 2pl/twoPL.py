@@ -35,7 +35,7 @@ class TwoPL :
             for (type, lockNum) in held_keys :
                 if (num != lockNum) :
                     if (self.transactionOrder.index(num) < self.transactionOrder.index(lockNum)) :
-                        print('\033[93m' + f"[WRITE]  | T{num} on {item} from DB | Lock held by younger transaction")
+                        print('\033[93m' + f"[WRITE]  | T{num} on {item} to DB | Lock held by younger transaction")
                         print('\033[93m' + f"[ABORT]  | T{lockNum} rolled back")
                         self._rollback(lockNum)
                     else :
@@ -70,13 +70,13 @@ class TwoPL :
                 if (op == 'R') :
                     print('\033[91m' + f"[READ]   | T{num} on {item} from DB | Inserted into queue")
                 else :
-                    print('\033[91m' + f"[WRITE]  | T{num} on {item} from DB | Inserted into queue")
+                    print('\033[91m' + f"[WRITE]  | T{num} on {item} to DB | Inserted into queue")
                 return (1,num)
             else :
                 if (op == 'R') :
                     print('\033[92m' + f"[READ]   | T{num} on {item} from DB")
                 else :
-                    print('\033[92m' + f"[WRITE]  | T{num} on {item} from DB")
+                    print('\033[92m' + f"[WRITE]  | T{num} on {item} to DB")
         elif str.upper(op) == 'C' : # Operasi commit
             # Buka semua lock yang dipegang transaksi yang dicommit
             self._release_locks(num)
